@@ -15,6 +15,8 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                serif: ['Noto Serif SC', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
+                mono: ['Noto Sans Mono', 'Courier New', 'monospace'],
             },
         },
     },
