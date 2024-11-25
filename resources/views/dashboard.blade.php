@@ -61,8 +61,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{-- <x-welcome /> --}}
             </div>
+            {!! $records->appends(Request::except('page'))->render() !!}
         </div>
     </div>
 

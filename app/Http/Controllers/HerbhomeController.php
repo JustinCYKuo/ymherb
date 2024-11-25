@@ -9,7 +9,7 @@ class HerbhomeController extends Controller
 {
     public function index()
     {
-        $records = Herb::all();
+        $records = Herb::paginate(10);
 
         $binding = [
             'records' => $records,
