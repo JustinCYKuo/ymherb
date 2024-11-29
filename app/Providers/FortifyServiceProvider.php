@@ -54,6 +54,16 @@ class FortifyServiceProvider extends ServiceProvider
         //     }
         // });
 
+        // 修改登入帳號欄位
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('employee_id', $request->employee_id)->first();
+    
+            if ($user &&
+                Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+        });
+
         // 限制每分鐘最多5次登入嘗試
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
