@@ -7,9 +7,13 @@ use App\Models\Herb;
 
 class HerbhomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $records = Herb::paginate(10);
+        $query = Herb::sortable();
+        if ($request->filled('name_search')) {
+            $query->where('name', 'like', '%' . $request->name_search . '%');
+        }
+        $records = $query->paginate(10);
 
         $binding = [
             'records' => $records,
@@ -25,11 +29,7 @@ class HerbhomeController extends Controller
             'sciname' => 'required',
             'famname' => 'required',
             'genname' => 'required',
-            'alias' => 'required',
             'type' => 'required',
-            'medparts' => 'required',
-            'effect' => 'required',
-            'area' => 'required',
         ]);
 
         $input = $request->all();
@@ -63,11 +63,7 @@ class HerbhomeController extends Controller
             'sciname' => 'required',
             'famname' => 'required',
             'genname' => 'required',
-            'alias' => 'required',
             'type' => 'required',
-            'medparts' => 'required',
-            'effect' => 'required',
-            'area' => 'required',
         ]);
 
         $input = $request->all();
@@ -85,7 +81,7 @@ class HerbhomeController extends Controller
         ];
 
         $record->update($data);
-        
+
         return redirect()->route('herbhome.index')->with('message', '編輯成功');
     }
 

@@ -21,19 +21,25 @@
                 <div></div>
             </div>
 
-            <div class="bg-white overflow-auto shadow-xl sm:rounded-lg">
+            <div class="max-w-screen overflow-x-auto">
                 <table class="table-fixed border border-slate-300 w-full">
                     <thead>
                         <tr>
-                            <th class="border-b border-slate-300 w-20">{{ __('名稱') }}</th>
+                            <th class="border-b border-slate-300 w-20">
+                                {{ __('名稱') }}
+                                <br>
+                                <form method="GET" action="{{ url()->current() }}" class="inline-block">
+                                    <input type="text" name="name_search" value="{{ request('name_search') }}" placeholder="搜尋名稱" class="mt-1 p-1 border rounded w-full" onchange="this.form.submit()">
+                                </form>
+                            </th>
                             <th class="border-b border-slate-300 w-28">{{ __('學名') }}</th>
-                            <th class="border-b border-slate-300 w-20">{{ __('科名') }}</th>
-                            <th class="border-b border-slate-300 w-20">{{ __('屬名') }}</th>
+                            <th class="border-b border-slate-300 w-20">@sortablelink('famname', '科名')</th>
+                            <th class="border-b border-slate-300 w-20">@sortablelink('genname', '屬名')</th>
                             <th class="border-b border-slate-300 w-24">{{ __('別名') }}</th>
-                            <th class="border-b border-slate-300 w-20">{{ __('型態') }}</th>
+                            <th class="border-b border-slate-300 w-20">@sortablelink('type', '型態')</th>
                             <th class="border-b border-slate-300 w-24">{{ __('藥用部位') }}</th>
                             <th class="border-b border-slate-300 w-28">{{ __('功效') }}</th>
-                            <th class="border-b border-slate-300 w-20">{{ __('區域') }}</th>
+                            <th class="border-b border-slate-300 w-20">@sortablelink('area', '區域')</th>
                             <th class="border-b border-slate-300 w-16"></th>
                         </tr>
                     </thead>
@@ -62,7 +68,8 @@
                     </tbody>
                 </table>
             </div>
-            {!! $records->appends(Request::except('page'))->render() !!}
+            {!! $records->appends(request()->except('page'))->render() !!}
+            {{-- {{ $records->onEachSide(3)->links() }} --}}
         </div>
     </div>
 
@@ -117,7 +124,7 @@
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="alias" class="block mb-2 text-sm font-medium text-gray-900">{{ __('別名') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                            <label for="alias" class="block mb-2 text-sm font-medium text-gray-900">{{ __('別名') }}</label>
                             <input type="text" id="alias" name="alias" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                             @error('alias')
                                 <span class="text-sm text-red-600">{{ __('請輸入別名') }}</span>
@@ -131,21 +138,21 @@
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="medparts" class="block mb-2 text-sm font-medium text-gray-900">{{ __('藥用部位') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                            <label for="medparts" class="block mb-2 text-sm font-medium text-gray-900">{{ __('藥用部位') }}</label>
                             <input type="text" id="medparts" name="medparts" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                             @error('medparts')
                                 <span class="text-sm text-red-600">{{ __('請輸入藥用部位') }}</span>
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="effect" class="block mb-2 text-sm font-medium text-gray-900">{{ __('功效') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                            <label for="effect" class="block mb-2 text-sm font-medium text-gray-900">{{ __('功效') }}</label>
                             <input type="text" id="effect" name="effect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                             @error('effect')
                                 <span class="text-sm text-red-600">{{ __('請輸入功效') }}</span>
                             @enderror
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label for="area" class="block mb-2 text-sm font-medium text-gray-900">{{ __('區域') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                            <label for="area" class="block mb-2 text-sm font-medium text-gray-900">{{ __('區域') }}</label>
                             <input type="text" id="area" name="area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                             
                             <!-- Dropdown menu -->
@@ -233,7 +240,7 @@
                                 @enderror
                             </div>
                             <div class="col-span-2 sm:col-span-1">
-                                <label for="alias-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('別名') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                                <label for="alias-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('別名') }}</label>
                                 <input type="text" id="alias-{{ $record->id }}" name="alias" value="{{ $record->alias }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                                 @error('alias')
                                     <span class="text-sm text-red-600">{{ __('請輸入別名') }}</span>
@@ -247,21 +254,21 @@
                                 @enderror
                             </div>
                             <div class="col-span-2 sm:col-span-1">
-                                <label for="medparts-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('藥用部位') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                                <label for="medparts-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('藥用部位') }}</label>
                                 <input type="text" id="medparts-{{ $record->id }}" name="medparts" value="{{ $record->medparts }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                                 @error('medparts')
                                     <span class="text-sm text-red-600">{{ __('請輸入藥用部位') }}</span>
                                 @enderror
                             </div>
                             <div class="col-span-2 sm:col-span-1">
-                                <label for="effect-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('功效') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                                <label for="effect-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('功效') }}</label>
                                 <input type="text" id="effect-{{ $record->id }}" name="effect" value="{{ $record->effect }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                                 @error('effect')
                                     <span class="text-sm text-red-600">{{ __('請輸入功效') }}</span>
                                 @enderror
                             </div>
                             <div class="col-span-2 sm:col-span-1">
-                                <label for="area-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('區域') }}<label class="text-red-600">{{ __('*') }}</label></label>
+                                <label for="area-{{ $record->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ __('區域') }}</label>
                                 <input type="text" id="area-{{ $record->id }}" name="area" value="{{ $record->area }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full">
                                 
                                 <div id="dropdownSearch-{{ $record->id }}" class="absolute z-10 hidden bg-white rounded-lg shadow w-60">

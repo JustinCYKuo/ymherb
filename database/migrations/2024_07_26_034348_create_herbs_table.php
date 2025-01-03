@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('sciname');
             $table->string('famname');
             $table->string('genname');
-            $table->string('alias');
+            $table->string('alias')->nullable();
             $table->string('type');
-            $table->string('medparts');
-            $table->string('effect');
-            $table->string('area');
+            $table->string('medparts')->nullable();
+            $table->string('effect')->nullable();
+            $table->string('area')->nullable();
             $table->timestamps();
         });
     }
